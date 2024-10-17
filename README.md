@@ -1,5 +1,5 @@
 ## INTRODUCTION
-   This a very basic application that uses "react" as frontend and "nodejs" as backend and stores data in "mysql" database. The application is dockerized using "docker-compose", each service and by service I mean (frontend, backend, db, monitoring and logging tools) has its own container.
+   This is a very basic application that uses "react" as frontend and "nodejs" as backend and stores data in "mysql" database. The application is dockerized using "docker-compose", each service and by service I mean (frontend, backend, db, monitoring and logging tools) has its own container.
 
 
 ## DOCKERIZING
