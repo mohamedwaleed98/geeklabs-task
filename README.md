@@ -8,11 +8,12 @@
 
 ## ACCESSING THE APP
    Each service works on a different port, check below the provided localhost ports to access each service:
-      frontend:localhost:3001
-      backend:localhost:3000
+   
+      frontend:  localhost:3001
+      backend:   localhost:3000
   
-      prometheus:localhost:9090
-      grafana:localhost:3002
+      prometheus: localhost:9090
+      grafana:    localhost:3002
 
 ## CHALLENGES ENCOUNTERED
    -- The backend's container could not reach the mysql datbase container due to some misconfigurations in the nodejs.
