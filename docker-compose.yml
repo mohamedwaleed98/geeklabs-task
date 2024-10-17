@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  db: 
+    image: mysql:8.0
+    environment: 
+      - MYSQL_DATABASE=appdb 
+      - MYSQL_PASSWORD=pass123 
+      - MYSQL_ROOT_PASSWORD=pass123 
+    networks:
+      - sameNetworkAsMysql 
+    ports:
+      - 3307:3306 
+
+  api: 
+    build: 
+      context: ./backend 
+      dockerfile: Dockerfile 
+    ports:
+      - 3000:3000 
+    networks:
+      - sameNetworkAsMysql
+    depends_on:
+      - db 
+  frontend: 
+    restart: on-failure 
+    build: 
+      context: ./frontend 
+    ports:
+      - 3001:3000 
+    networks:
+      - sameNetworkAsMysql 
+    depends_on:
+      - api
+    
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+     - 9090:9090  
+    networks:
+     - sameNetworkAsMysql
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3002:3000
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - sameNetworkAsMysql
+    depends_on:
+      - prometheus  
+
+networks:
+  sameNetworkAsMysql: 
+    driver: bridge

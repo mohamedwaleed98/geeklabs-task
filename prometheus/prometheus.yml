@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 5s # How often to scrape metrics
+
+scrape_configs:
+  - job_name: 'api'
+    static_configs:
+      - targets: ['api:3000'] # Scrape metrics from the API service
+
+  - job_name: 'db'
+    static_configs:
+      - targets: ['db:3306'] # Scrape metrics from the MySQL service (you need to expose MySQL metrics)
+
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090'] # Scrape Prometheus itself
