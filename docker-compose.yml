@@ -1,46 +1,47 @@
 version: "3.8"
 
 services:
-  db: 
+  db:
     image: mysql:8.0
-    environment: 
-      - MYSQL_DATABASE=appdb 
-      - MYSQL_PASSWORD=pass123 
-      - MYSQL_ROOT_PASSWORD=pass123 
+    environment:
+      - MYSQL_DATABASE=appdb
+      - MYSQL_PASSWORD=pass123
+      - MYSQL_ROOT_PASSWORD=pass123
     networks:
-      - sameNetworkAsMysql 
+      - sameNetworkAsMysql
     ports:
-      - 3307:3306 
+      - 3307:3306
+    volumes:
+      - ./script.sql:/docker-entrypoint-initdb.d/init.sql
 
   api:
-    image: mohamedwaleed98/fullstack-api:v1.0 
-    build: 
-      context: ./backend 
-      dockerfile: Dockerfile 
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
-      - 3000:3000 
+      - 3000:3000
     networks:
       - sameNetworkAsMysql
     depends_on:
-      - db 
+      - db
   frontend:
-    image: mohamedwaleed98/fullstack-ui.v1.0
-    restart: on-failure 
-    build: 
-      context: ./frontend 
+    #image: mohamedwaleed98/fullstack-ui.v1.0
+    restart: on-failure
+    build:
+      context: ./frontend
     ports:
-      - 3001:3000 
+      - 3001:3000
     networks:
-      - sameNetworkAsMysql 
+      - sameNetworkAsMysql
     depends_on:
       - api
-    
+
   prometheus:
     image: prom/prometheus:latest
     volumes:
      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
-     - 9090:9090  
+     - 9090:9090
     networks:
      - sameNetworkAsMysql
 
@@ -53,8 +54,8 @@ services:
     networks:
       - sameNetworkAsMysql
     depends_on:
-      - prometheus  
+      - prometheus
 
 networks:
-  sameNetworkAsMysql: 
+  sameNetworkAsMysql:
     driver: bridge
